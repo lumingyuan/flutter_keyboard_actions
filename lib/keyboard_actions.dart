@@ -570,7 +570,7 @@ class KeyboardActionstate extends State<KeyboardActions>
                             vertical: 8.0, horizontal: 12.0),
                         child: config?.defaultDoneWidget ??
                             Text(
-                              "Done",
+                              _currentAction?.doneText ?? "Done",
                               style: TextStyle(
                                 fontSize: 16.0,
                                 fontWeight: FontWeight.w500,
