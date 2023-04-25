@@ -12,6 +12,8 @@ class KeyboardActionsItem {
   /// NOTE: `toolbarButtons` override the Done button by default
   final List<ButtonBuilder>? toolbarButtons;
 
+  final Widget? titleWidget;
+
   /// true [default] to display the Done button
   final bool displayDoneButton;
 
@@ -44,6 +46,7 @@ class KeyboardActionsItem {
     required this.focusNode,
     this.onTapAction,
     this.toolbarButtons,
+    this.titleWidget,
     this.enabled = true,
     this.displayActionBar = true,
     this.displayArrows = true,
