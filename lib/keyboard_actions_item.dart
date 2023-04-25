@@ -13,6 +13,8 @@ class KeyboardActionsItem {
   final List<ButtonBuilder>? toolbarButtons;
 
   final Widget? titleWidget;
+  
+  final String? doneText;
 
   /// true [default] to display the Done button
   final bool displayDoneButton;
@@ -47,6 +49,7 @@ class KeyboardActionsItem {
     this.onTapAction,
     this.toolbarButtons,
     this.titleWidget,
+    this.doneText,
     this.enabled = true,
     this.displayActionBar = true,
     this.displayArrows = true,
