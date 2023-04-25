@@ -521,60 +521,75 @@ class KeyboardActionstate extends State<KeyboardActions>
         child: SafeArea(
           top: false,
           bottom: false,
-          child: Row(
-            mainAxisAlignment:
-                _currentAction?.toolbarAlignment ?? MainAxisAlignment.end,
+          child: Stack(
             children: [
-              if (config!.nextFocus && displayArrows) ...[
-                IconButton(
-                  icon: Icon(Icons.keyboard_arrow_up),
-                  tooltip: 'Previous',
-                  iconSize: IconTheme.of(context).size!,
-                  color: IconTheme.of(context).color,
-                  disabledColor: Theme.of(context).disabledColor,
-                  onPressed: _previousIndex != null ? _onTapUp : null,
+              if (config!.nextFocus && displayArrows)
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.keyboard_arrow_up),
+                        tooltip: 'Previous',
+                        iconSize: IconTheme.of(context).size!,
+                        color: IconTheme.of(context).color,
+                        disabledColor: Theme.of(context).disabledColor,
+                        onPressed: _previousIndex != null ? _onTapUp : null,
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.keyboard_arrow_down),
+                        tooltip: 'Next',
+                        iconSize: IconTheme.of(context).size!,
+                        color: IconTheme.of(context).color,
+                        disabledColor: Theme.of(context).disabledColor,
+                        onPressed: _nextIndex != null ? _onTapDown : null,
+                      )
+                    ],
+                  ),
                 ),
-                IconButton(
-                  icon: Icon(Icons.keyboard_arrow_down),
-                  tooltip: 'Next',
-                  iconSize: IconTheme.of(context).size!,
-                  color: IconTheme.of(context).color,
-                  disabledColor: Theme.of(context).disabledColor,
-                  onPressed: _nextIndex != null ? _onTapDown : null,
-                ),
-                const Spacer(),
-              ],
+              if (_currentAction?.titleWidget != null)
+                Center(child: _currentAction!.titleWidget!),
               if (_currentAction?.displayDoneButton != null &&
                   _currentAction!.displayDoneButton &&
                   (_currentAction!.toolbarButtons == null ||
                       _currentAction!.toolbarButtons!.isEmpty))
-                Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: InkWell(
-                    onTap: () {
-                      if (_currentAction?.onTapAction != null) {
-                        _currentAction!.onTapAction!();
-                      }
-                      _clearFocus();
-                    },
-                    child: Container(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
-                      child: config?.defaultDoneWidget ??
-                          Text(
-                            "Done",
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.w500,
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: InkWell(
+                      onTap: () {
+                        if (_currentAction?.onTapAction != null) {
+                          _currentAction!.onTapAction!();
+                        }
+                        _clearFocus();
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 12.0),
+                        child: config?.defaultDoneWidget ??
+                            Text(
+                              "Done",
+                              style: TextStyle(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
-                          ),
+                      ),
                     ),
                   ),
                 ),
               if (_currentAction?.toolbarButtons != null)
-                ..._currentAction!.toolbarButtons!
-                    .map((item) => item(_currentAction!.focusNode))
-                    .toList()
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: _currentAction!.toolbarButtons!
+                        .map((item) => item(_currentAction!.focusNode))
+                        .toList(),
+                  ),
+                )
             ],
           ),
         ),
